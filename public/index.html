@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BAC PRO</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+
+    <div id="aviso-giro">
+        <div class="icono-giro">📱🔄</div>
+        <h2>GIRA TU MÓVIL</h2>
+        <p>Para jugar al BAC, pon el móvil en horizontal.</p>
+    </div>
+
+    <div id="pantalla-login">
+        <h1 style="color:var(--dorado); font-size: 50px; margin:0;">BAC ONLINE</h1>
+        <div id="lista-espera">
+            <h3>SALA DE ESPERA</h3>
+            <div id="info-espera" style="margin-bottom:10px; color:#aaa;">Esperando jugadores...</div>
+            <ul id="lista-jugadores-ul" style="text-align:left; color:white;"></ul>
+            
+            <input type="text" id="input-nombre" placeholder="Tu Nombre" style="width:90%; padding:10px; margin-top:10px;">
+            <button onclick="unirsePartida()" style="width:100%; margin-top:10px; background:var(--dorado);">UNIRSE</button>
+        </div>
+    </div>
+
+    <div id="pantalla-juego" class="oculto">
+        
+        <div id="marcador-container">
+            <div class="panel-equipo e1">
+                <div class="nombre-equipo" id="n-e1">Equipo 1</div>
+                <div class="puntuacion-grande">
+                    <span><span class="icono-macarron">🍝</span> <span id="mac-e1">0</span></span>
+                    <span><span class="icono-cartas">🎴</span> <span id="cart-e1">0</span></span>
+                </div>
+            </div>
+            <div class="panel-equipo e2">
+                <div class="nombre-equipo" id="n-e2">Equipo 2</div>
+                <div class="puntuacion-grande">
+                    <span><span class="icono-macarron">🍝</span> <span id="mac-e2">0</span></span>
+                    <span><span class="icono-cartas">🎴</span> <span id="cart-e2">0</span></span>
+                </div>
+            </div>
+
+            <button onclick="salirDelJuego()" style="position:absolute; top:10px; right:10px; background:#d32f2f; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; font-size:12px;">
+        SALIR 🏃‍♂️
+    </button>
+        </div>
+
+        <div class="mesa-container">
+            
+            <div id="capa-efectos"></div>
+
+            <div id="aviso-central" class="oculto">MENSAJE</div>
+
+            <div id="rival-top" class="jugador-avatar top">Compa</div>
+            <div id="rival-left" class="jugador-avatar left">Rival 1</div>
+            <div id="rival-right" class="jugador-avatar right">Rival 2</div>
+
+            <div id="zona-mesa" class="zona-central"></div>
+
+            <div class="jugador-avatar bottom" id="mi-area">
+                <div id="mis-cartas" style="display:flex; gap:10px;"></div>
+                <div id="controles">
+                    <button id="btn-fallo" onclick="robarFallo()">ROBAR FALLO</button>
+                    <button id="btn-jugar" onclick="enviarJugada()">JUGAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="client.js"></script>
+</body>
+</html>

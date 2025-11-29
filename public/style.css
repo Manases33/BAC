@@ -1,0 +1,321 @@
+/* public/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap');
+
+:root {
+    --verde-mesa: #1b5e20;
+    --borde-mesa: #4e342e;
+    --dorado: #ffd700;
+}
+
+body {
+    background-color: #121212;
+    color: white;
+    font-family: 'Roboto Condensed', sans-serif;
+    margin: 0;
+    overflow: hidden;
+    user-select: none;
+}
+
+.oculto { display: none !important; }
+
+/* --- PANTALLA DE LOGIN --- */
+#pantalla-login {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100vh; background: radial-gradient(circle, #263238, #000);
+}
+#lista-espera {
+    background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; width: 300px; margin-top: 20px;
+    text-align: center;
+}
+#lista-jugadores-ul { list-style: none; padding: 0; }
+#input-nombre { width: 90%; padding: 10px; margin-top: 10px; border-radius: 5px; border: none; }
+
+/* --- PANTALLA DE JUEGO --- */
+
+/* MARCADOR FLOTANTE (Arriba) */
+#marcador-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 90px;
+    display: flex; justify-content: center; gap: 20px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+    z-index: 100; pointer-events: none; /* Dejar pasar clics a través */
+}
+
+.panel-equipo {
+    background: rgba(0,0,0,0.8);
+    border: 2px solid #555;
+    border-radius: 0 0 15px 15px;
+    padding: 5px 20px;
+    min-width: 180px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    pointer-events: auto;
+}
+.panel-equipo.e1 { border-top: 5px solid #2196f3; }
+.panel-equipo.e2 { border-top: 5px solid #f44336; }
+
+.nombre-equipo { font-size: 12px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+.puntuacion-grande { 
+    font-size: 24px; 
+    display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 5px; 
+}
+
+/* LA MESA VERDE */
+.mesa-container {
+    position: relative;
+    width: 90vw;
+    height: 80vh;
+    margin: 100px auto 0; /* Dejar hueco al marcador */
+    background-color: var(--verde-mesa);
+    border: 15px solid var(--borde-mesa);
+    border-radius: 60px;
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+}
+
+/* AVATARES DE JUGADORES */
+.jugador-avatar {
+    position: absolute;
+    background: rgba(0,0,0,0.7);
+    padding: 5px 15px;
+    border-radius: 20px;
+    text-align: center;
+    border: 2px solid transparent;
+    color: white;
+    font-size: 14px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+.jugador-avatar.turno { 
+    border-color: var(--dorado); 
+    background: rgba(255, 215, 0, 0.2); 
+    transform: scale(1.1); 
+    box-shadow: 0 0 15px var(--dorado);
+}
+
+/* Posiciones exactas */
+.top { top: -20px; left: 50%; transform: translateX(-50%); }
+.left { top: 50%; left: -40px; transform: translateY(-50%) rotate(90deg); transform-origin: center; }
+.right { top: 50%; right: -40px; transform: translateY(-50%) rotate(-90deg); transform-origin: center; }
+.bottom { bottom: 20px; left: 50%; transform: translateX(-50%); width: 100%; display: flex; flex-direction: column; align-items: center; }
+
+/* ZONA CENTRAL (Cartas de la mesa) */
+.zona-central {
+    position: absolute;
+    top: 45%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%; height: 40%;
+    display: flex; justify-content: center; align-items: center; align-content: center;
+    flex-wrap: wrap; gap: 10px;
+}
+
+/* LAS CARTAS */
+.carta {
+    width: 60px; height: 90px;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 4px;
+    font-family: 'Courier New', monospace; font-weight: bold; color: black;
+    cursor: pointer; transition: transform 0.2s;
+    user-select: none;
+}
+.carta:hover { transform: translateY(-10px); }
+.carta.seleccionada { border: 3px solid var(--dorado); transform: translateY(-15px); box-shadow: 0 0 10px var(--dorado); }
+
+.carta-num { font-size: 16px; line-height: 1; }
+.carta-icono { font-size: 28px; align-self: center; }
+.carta-num.inv { transform: rotate(180deg); align-self: flex-end; }
+
+/* Colores de palos */
+.oros { color: #d4af37; } .copas { color: #b71c1c; }
+.espadas { color: #1565c0; } .bastos { color: #2e7d32; }
+
+/* AVISOS Y MENSAJES */
+#aviso-central {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.95); padding: 20px 40px;
+    border: 3px solid var(--dorado); border-radius: 15px;
+    font-size: 24px; color: var(--dorado); font-weight: bold;
+    z-index: 200; text-align: center; pointer-events: none;
+}
+
+/* CONTROLES DEL JUGADOR (ABAJO) */
+#mis-cartas { display: flex; gap: 10px; min-height: 100px; align-items: flex-end; }
+#controles { margin-top: 10px; display: flex; gap: 10px; pointer-events: auto; }
+
+button {
+    padding: 10px 20px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; text-transform: uppercase;
+}
+#btn-jugar { background: var(--dorado); color: black; }
+#btn-fallo { background: #424242; color: white; border: 1px solid #aaa; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ESTILOS MACARRONES */
+.macarron { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #000; display: inline-block; margin: 1px; }
+.macarron-mala { background-color: #ffd700; }
+.macarron-buena { background-color: #ff1744; box-shadow: 0 0 5px red; }
+
+/* --- MEJORAS PARA MÓVIL (style.css) --- */
+
+/* 1. Ajustes generales para pantallas pequeñas */
+@media (max-width: 900px) {
+
+    /* MARCADOR: Más pequeño para que no tape la mesa */
+    #marcador-container {
+        height: 60px; /* Reducimos altura */
+        gap: 5px;
+    }
+    .panel-equipo {
+        min-width: 100px;
+        padding: 2px 10px;
+        border-radius: 0 0 10px 10px;
+    }
+    .nombre-equipo { font-size: 10px; }
+    .puntuacion-grande { font-size: 16px; margin-top: 2px; }
+
+    /* MESA: Ocupar toda la pantalla y quitar bordes gruesos */
+    .mesa-container {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        border-width: 0; /* Quitamos borde para ganar espacio */
+        border-radius: 0;
+        box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+    }
+
+    /* CARTAS: Tamaño dinámico basado en el ancho de pantalla */
+    .carta {
+        width: 11vw;  /* Anchura relativa a la pantalla */
+        height: 17vw; /* Altura relativa */
+        max-width: 55px; /* Topes para que no sean gigantes en tablets */
+        max-height: 85px;
+        font-size: 12px;
+    }
+    .carta-icono { font-size: 20px; }
+    .carta-num { font-size: 12px; }
+
+    /* AVATARES: Más pequeños y pegados a los bordes */
+    .jugador-avatar {
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 10px;
+        background: rgba(0,0,0,0.85);
+    }
+    /* Ajuste fino de posiciones para que no se salgan */
+    .top { top: 65px; } /* Debajo del marcador */
+    .left { left: -15px; } /* Pegado al borde izq */
+    .right { right: -15px; } /* Pegado al borde der */
+    
+    /* 2. ZONA CENTRAL (MESA): La subimos un poco hacia arriba */
+    .zona-central {
+        width: 85%;
+        gap: 5px;
+        top: 40%; /* IMPORTANTE: Subimos la mesa (antes estaba al 45% o 50%) */
+    }
+
+    /* 3. TU ZONA (ABAJO): Pegamos más los botones a las cartas */
+    .bottom {
+        bottom: 5px; /* Más pegado al borde inferior */
+        width: 100%;
+    }
+    #mis-cartas {
+        margin-bottom: 5px; /* Menos espacio entre tus cartas y los botones */
+        gap: 5px;
+    }
+
+    /* BOTONES: Grandes para el dedo gordo */
+    #controles {
+        width: 90%;
+        justify-content: center;
+        gap: 15px;
+    }
+    button {
+        flex: 1; /* Que ocupen el ancho disponible */
+        padding: 12px 0;
+        font-size: 16px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+}
+
+/* 2. FORZAR MODO HORIZONTAL (LANDSCAPE) */
+/* Si la pantalla es vertical (portrait), mostramos un aviso */
+#aviso-giro {
+    display: none; /* Oculto por defecto */
+}
+
+@media (orientation: portrait) and (max-width: 900px) {
+    #aviso-giro {
+        display: flex;
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        background: #121212;
+        z-index: 9999;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--dorado);
+        text-align: center;
+    }
+    #pantalla-juego, #pantalla-login {
+        display: none !important; /* Ocultamos el juego si está en vertical */
+    }
+    .icono-giro {
+        font-size: 50px;
+        margin-bottom: 20px;
+        animation: girar 2s infinite;
+    }
+}
+
+@keyframes girar {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(-90deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* --- EFECTOS ESPECIALES (BAC y LIMPIA) --- */
+
+#capa-efectos {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; /* Dejar pasar clics */
+    display: flex; justify-content: center; align-items: center;
+    z-index: 500;
+    overflow: hidden;
+}
+
+.texto-efecto {
+    font-size: 80px;
+    font-weight: 900;
+    text-transform: uppercase;
+    opacity: 0; /* Invisible por defecto */
+    text-shadow: 4px 4px 0 #000;
+    white-space: nowrap;
+}
+
+/* ANIMACIÓN BAC: Golpe seco que crece y vibra */
+.anim-bac {
+    color: #ff3d00;
+    animation: bacGolpe 3s ease-out forwards;
+}
+
+@keyframes bacGolpe {
+    0% { opacity: 0; transform: scale(0.1) rotate(-10deg); }
+    50% { opacity: 1; transform: scale(1.5) rotate(5deg); }
+    60% { transform: scale(1.2) rotate(-5deg); }
+    70% { transform: scale(1.4) rotate(5deg); }
+    100% { opacity: 0; transform: scale(2) rotate(0deg); }
+}
+
+/* ANIMACIÓN LIMPIA: Dorado brillante que sube */
+.anim-limpia {
+    color: #ffd700;
+    text-shadow: 0 0 20px #ffd700, 4px 4px 0 #000;
+    animation: limpiaBrillo 3s ease-out forwards;
+}
+
+@keyframes limpiaBrillo {
+    0% { opacity: 0; transform: translateY(50px) scale(0.5); }
+    20% { opacity: 1; transform: translateY(0) scale(1.2); }
+    80% { opacity: 1; transform: translateY(-20px) scale(1.2); }
+    100% { opacity: 0; transform: translateY(-100px) scale(1); }
+}
